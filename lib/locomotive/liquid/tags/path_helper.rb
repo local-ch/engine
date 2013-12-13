@@ -1,18 +1,34 @@
 module Locomotive
   module Liquid
     module Tags
-      module UrlHelper
+      module PathHelper
 
-        def render_url(context, &block)
+        Syntax = /(#{::Liquid::Expression}+)(#{::Liquid::TagAttributes}?)/
+
+        def initialize(tag_name, markup, tokens, context)
+          if markup =~ Syntax
+            @handle = $1
+            @options = {}
+            markup.scan(::Liquid::TagAttributes) do |key, value|
+              @options[key] = value
+            end
+          else
+            self.wrong_syntax!
+          end
+
+          super
+        end
+
+        def render_path(context, &block)
           site  = context.registers[:site]
 
           if page = self.retrieve_page_from_handle(site, context)
-            url = self.public_page_url(site, page)
+            path = self.public_page_fullpath(site, page)
 
             if block_given?
-              block.call page, url
+              block.call page, path
             else
-              url
+              path
             end
           else
             '' # no page found
@@ -49,7 +65,7 @@ module Locomotive
           end
         end
 
-        def public_page_url(site, page)
+        def public_page_fullpath(site, page)
           fullpath = site.localized_page_fullpath(page, @options['locale'])
 
           if page.templatized?
