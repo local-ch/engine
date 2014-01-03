@@ -18,9 +18,9 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rake',                            '~> 10.0.0'
 
-  s.add_dependency 'rails',                           '~> 3.2.15'
+  s.add_dependency 'rails',                           '~> 3.2.16'
 
-  s.add_dependency 'devise',                          '~> 2.2.3'
+  s.add_dependency 'devise',                          '2.2.7'
   s.add_dependency 'devise-encryptable',              '~> 0.1.1'
   s.add_dependency 'cancan',                          '1.6.7'
 
