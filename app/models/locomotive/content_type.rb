@@ -8,6 +8,7 @@ module Locomotive
     include Extensions::ContentType::DefaultValues
     include Extensions::ContentType::ItemTemplate
     include Extensions::ContentType::Sync
+    include Extensions::ContentType::PublicSubmissionTitleTemplate
 
     ## fields ##
     field :name
