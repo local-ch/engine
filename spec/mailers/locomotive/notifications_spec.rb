@@ -4,7 +4,7 @@ describe Locomotive::Notifications do
 
   describe 'new_content_entry' do
 
-    let(:site) { FactoryGirl.build(:site, domains: %w{www.acme.com}) }
+    let(:site) { FactoryGirl.build(:site, name: 'Acme', domains: %w{www.acme.com}) }
 
     let(:account) { FactoryGirl.build(:account) }
 
@@ -48,6 +48,18 @@ describe Locomotive::Notifications do
       it 'renders the subject without setting ActionMailer' do
         ActionMailer::Base.default_url_options[:host] = nil
         mail.subject.should == '[localhost][My project] new entry'
+      end
+
+    end
+
+    context 'custom title' do
+
+      before do
+        content_type.public_submission_title_template = "{{ site.name }} - you have a message"
+      end
+
+      it 'renders the subject' do
+        mail.subject.should == 'Acme - you have a message'
       end
 
     end
